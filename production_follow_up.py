@@ -13,14 +13,14 @@ def setPrecision(value, decimal_places):
 data = pd.read_csv('D:/1. Work/1. Daily/Production follow up/data.csv')
 
 today = input("Enter yesterday's date: ")
-file_name = "D:/1. Work/1. Daily/Production follow up/01. Jan/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/01. Jan/' + str(today) + '.xlsx'
+file_name = "D:/1. Work/1. Daily/Production follow up/02. Feb/" + today + ".xlsx"
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/02. Feb/' + str(today) + '.xlsx'
 
 template = pd.read_excel("D:/1. Work/1. Daily/Production follow up/template.xlsx")
 
 units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'LINGERIE']
 
-file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/01. Jan/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/01. Jan/', file)))
+file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/02. Feb/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/02. Feb/', file)))
 # completed_days = int(input("Enter completed days: "))
 completed_days = int(file_count) + 1
 
