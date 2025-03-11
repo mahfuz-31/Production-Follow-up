@@ -5,6 +5,10 @@ from openpyxl.styles import Border, PatternFill, Side # type: ignore
 import os
 from openpyxl.styles import Font # type: ignore
 from openpyxl.styles import Alignment
+from datetime import datetime, timedelta
+def get_confirmation():
+    choice = input("Do you want to create yesterday's report? (Press 'N' or 'n' for No, any other key for Yes): ").strip()
+    return choice.lower() != 'n'
 
 def setPrecision(value, decimal_places):
     factor = 10 ** decimal_places
@@ -12,7 +16,16 @@ def setPrecision(value, decimal_places):
     
 data = pd.read_csv('D:/1. Work/1. Daily/Production follow up/data.csv')
 
-today = input("Enter yesterday's date: ")
+# today = input("Enter yesterday's date: ")
+today = ''
+if get_confirmation():
+    today = datetime.now() - timedelta(days=1)
+    today = today.strftime("%d-%b-%y")  # Example: 10-Mar-25
+else:
+    date = int(input("Enter how many days ago from today's date you want to get: "))
+    date = datetime.now() - timedelta(days=date)
+    today = date.strftime("%d-%b-%y")
+print(today)
 file_name = "D:/1. Work/1. Daily/Production follow up/03. Mar/" + today + ".xlsx"
 file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/03. Mar/' + str(today) + '.xlsx'
 
