@@ -25,16 +25,14 @@ else:
     date = int(input("Enter how many days ago from today's date you want to get: "))
     date = datetime.now() - timedelta(days=date)
     today = date.strftime("%d-%b-%y")
-print(today)
-file_name = "D:/1. Work/1. Daily/Production follow up/03. Mar/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/03. Mar/' + str(today) + '.xlsx'
+file_name = "D:/1. Work/1. Daily/Production follow up/05. May/" + today + ".xlsx"
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/05. May/' + str(today) + '.xlsx'
 
 template = pd.read_excel("D:/1. Work/1. Daily/Production follow up/template.xlsx")
 
 units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'LINGERIE']
 
-file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/03. Mar/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/03. Mar/', file)))
-# completed_days = int(input("Enter completed days: "))
+file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/05. May/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/05. May/', file)))
 completed_days = int(file_count) + 1
 
 QC_Pass = []
@@ -76,7 +74,6 @@ for index, row in template.iterrows():
     unit = row['Production Unit']
     if unit in units:
         plan_balance.append(row['Plan (Pcs)'] - Accu_QC_Pass[i])
-        print(unit, row['Plan day'], completed_days)
         req_prod_upto_yes.append(int(row['Plan (Pcs)'] * (completed_days / row['Plan day'])))
         backlog_upto_yes.append(req_prod_upto_yes[-1] - Accu_QC_Pass[i])
         QC_pass_min.append(int(QC_Pass[i] * prod_smv[i]))
@@ -94,7 +91,6 @@ for index, row in template.iterrows():
     else:
         plan_pcs_total = row['Plan (Pcs)']
 
-print(plan_smv)
 i = 0
 for index, row in template.iterrows():
     unit = row['Production Unit']
@@ -241,7 +237,7 @@ for row in ws_sheet2.iter_rows():
     count += 1
 
 ws_sheet1.column_dimensions['A'].width = 11
-ws_sheet1.column_dimensions['B'].width = 11
+ws_sheet1.column_dimensions['B'].width = 12
 ws_sheet1.column_dimensions['C'].width = 11
 ws_sheet1.column_dimensions['D'].width = 11
 ws_sheet1.column_dimensions['T'].width = 11
@@ -299,7 +295,6 @@ for row_idx, row in enumerate(ws_sheet2_range, start=start_row):
 title_cell = ws_sheet1['A13']
 title_cell.value = "Forecast excluding Lingerie:"
 title_cell.font = Font(bold=True, underline='single')
-# ws_sheet1.merge_cells('A13:C13')
 
 # add the date at the top
 ws_sheet1.insert_rows(1)
@@ -309,5 +304,8 @@ ws_sheet1['B1'] = '=TODAY() - 1'
 ws_sheet1['B1'].font = Font(bold=True)
 ws_sheet1['B1'].number_format = 'DD/MM/YYYY'
 
+ws_sheet1.insert_rows(1)
+ws_sheet1['A1'] = 'Plan vs Achievement'
+ws_sheet1['A1'].font = Font(bold=True, size=16)
 wb.save(file_name)
 wb.save(file2_name)
