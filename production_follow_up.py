@@ -30,7 +30,7 @@ file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production f
 
 template = pd.read_excel("D:/1. Work/1. Daily/Production follow up/template.xlsx")
 
-units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'LINGERIE']
+units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GTAL', 'LINGERIE']
 
 file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/05. May/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/05. May/', file)))
 completed_days = int(file_count) + 1
@@ -202,10 +202,10 @@ fill_color = PatternFill(start_color='FF1b770b', end_color='FFFF00', fill_type='
 # apply the Formats
 count = 0
 for row in ws_sheet1.iter_rows():
-    if count >= 10:
+    if count >= 11:
         break
     for cell in row:
-        if count == 0 or count == 8:
+        if count == 0 or count == 9:
             cell.alignment = align
             cell.font = Font(bold=True, color='ffffff')
             cell.fill = fill_color
@@ -251,7 +251,7 @@ ws_sheet1.column_dimensions['J'].width = 11
 
 
 ws_sheet2_range = ws_sheet2['A1:F7']
-start_row = 14
+start_row = 15
 start_col = 1
 for row_idx, row in enumerate(ws_sheet2_range, start=start_row):
     for col_idx, cell in enumerate(row, start=start_col):
@@ -292,7 +292,7 @@ for row_idx, row in enumerate(ws_sheet2_range, start=start_row):
             target_cell.number_format = cell.number_format
 
 # add title at the forecast table
-title_cell = ws_sheet1['A13']
+title_cell = ws_sheet1['A14']
 title_cell.value = "Forecast excluding Lingerie:"
 title_cell.font = Font(bold=True, underline='single')
 
