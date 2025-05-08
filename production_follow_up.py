@@ -30,7 +30,7 @@ file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production f
 
 template = pd.read_excel("D:/1. Work/1. Daily/Production follow up/template.xlsx")
 
-units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GTAL', 'LINGERIE']
+units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'LINGERIE', 'GTAL']
 
 file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/05. May/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/05. May/', file)))
 completed_days = int(file_count) + 1
