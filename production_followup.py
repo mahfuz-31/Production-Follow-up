@@ -25,18 +25,19 @@ else:
     date = int(input("Enter how many days ago from today's date you want to get: "))
     date = datetime.now() - timedelta(days=date)
     today = date.strftime("%d-%b-%y")
-file_name = "D:/1. Work/1. Daily/Production follow up/05. May/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/05. May/' + str(today) + '.xlsx'
+file_name = "06. Jun/" + today + ".xlsx"
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/06. Jun/' + str(today) + '.xlsx'
 
 # template = pd.read_excel("D:/1. Work/1. Daily/Production follow up/template.xlsx")
 
 units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GMT TOTAL:', 'LINGERIE', 'GTAL']
 
-file_count = sum(1 for file in os.listdir('D:/1. Work/1. Daily/Production follow up/05. May/') if os.path.isfile(os.path.join('D:/1. Work/1. Daily/Production follow up/05. May/', file)))
+file_count = sum(1 for file in os.listdir('06. Jun/') if os.path.isfile(os.path.join('06. Jun/', file)))
+
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
 
-wb = load_workbook("template - Copy.xlsx")
+wb = load_workbook("template.xlsx")
 ws = wb["Sheet1"]
 i = 0
 for index, row in data.iterrows():
@@ -55,4 +56,3 @@ wb.save(file_name)
 wb.close()
 if os.path.exists(file_name):
     print("File created successfully.")
-    
