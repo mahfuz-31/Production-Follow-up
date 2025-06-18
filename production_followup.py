@@ -28,7 +28,7 @@ else:
 file_name = "06. Jun/" + today + ".xlsx"
 file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/06. Jun/' + str(today) + '.xlsx'
 
-units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GMT TOTAL:', 'LINGERIE', 'GTAL']
+units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GMT TOTAL:', 'LINGERIE', 'GTAL-LIN']
 
 file_count = sum(1 for file in os.listdir('06. Jun/') if os.path.isfile(os.path.join('06. Jun/', file)))
 
