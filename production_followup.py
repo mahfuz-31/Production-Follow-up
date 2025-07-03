@@ -26,11 +26,11 @@ else:
     date = datetime.now() - timedelta(days=date)
     today = date.strftime("%d-%b-%y")
 file_name = "06. Jun/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/06. Jun/' + str(today) + '.xlsx'
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/07. Jul/' + str(today) + '.xlsx'
 
-units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GMT TOTAL:', 'LINGERIE', 'GTAL-LIN']
+units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GTAL', 'GMT TOTAL:', 'LINGERIE', 'GTAL-LIN']
 
-file_count = sum(1 for file in os.listdir('06. Jun/') if os.path.isfile(os.path.join('06. Jun/', file)))
+file_count = sum(1 for file in os.listdir('07. Jul/') if os.path.isfile(os.path.join('06. Jun/', file)))
 
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
