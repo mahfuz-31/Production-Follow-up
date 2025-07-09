@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 import pandas as pd # type: ignore
 import math
 from openpyxl import load_workbook # type: ignore
@@ -14,8 +15,18 @@ def setPrecision(value, decimal_places):
     factor = 10 ** decimal_places
     return math.floor(value * factor) / factor
     
-data = pd.read_csv('data.csv')
+# data = pd.read_csv('data.csv')
+file_name = 'diagnostic_summary.html'
+with open(file_name, "r", encoding="latin1") as file:
+    html_file = file.read()
 
+html_content = BeautifulSoup(html_file, "html.parser")
+rows = []
+for row in html_content.find_all('tr'):
+    row_data = [cell.get_text(strip=True) for cell in row.find_all('td')]
+    rows.append(row_data)
+
+# today = input("Enter yesterday's date: ")
 today = ''
 if get_confirmation():
     today = datetime.now() - timedelta(days=1)
@@ -37,22 +48,37 @@ print("completed_days: ", completed_days)
 wb = load_workbook("template.xlsx")
 ws = wb["Sheet1"]
 i = 0
-for index, row in data.iterrows():
-    unit = row['Prod. Date']
-    if unit in units:
-        ws['B' + str(i + 4)] = row['QC Pass']
-        ws['D' + str(i + 4)] = row['Accu. QC Pass']
-        ws['K' + str(i + 4)] = row['Target']
-        ws['O' + str(i + 4)] = row['Accu. SMV']
-        ws['Q' + str(i + 4)] = row['Accu. W.Hour']
-        ws['S' + str(i + 4)] = row['Accu. Efficiency']
+for row in rows:
+    if len(row) == 20 and row[0] in units:
+        ws['B' + str(i + 4)] = float(row[7].replace(',', ''))
+        ws['D' + str(i + 4)] = float(row[13].replace(',', ''))
+        ws['K' + str(i + 4)] = float(row[8].replace(',', ''))
+        ws['O' + str(i + 4)] = float(row[18])
+        ws['Q' + str(i + 4)] = float(row[14])
+        ws['S' + str(i + 4)] = float(row[15].replace('%', ''))/100
         ws['W' + str(i + 4)] = completed_days
         i += 1
-
-# date_cell
-ws['B2'] = today
-
+ws['B2'] = today  # date_cell
 wb.save(file_name)
 wb.close()
 if os.path.exists(file_name):
     print("File created successfully.")
+# for index, row in data.iterrows():
+#     unit = row['Prod. Date']
+#     if unit in units:
+#         ws['B' + str(i + 4)] = row['QC Pass']
+#         ws['D' + str(i + 4)] = row['Accu. QC Pass']
+#         ws['K' + str(i + 4)] = row['Target']
+#         ws['O' + str(i + 4)] = row['Accu. SMV']
+#         ws['Q' + str(i + 4)] = row['Accu. W.Hour']
+#         ws['S' + str(i + 4)] = row['Accu. Efficiency']
+#         ws['W' + str(i + 4)] = completed_days
+#         i += 1
+
+# # date_cell
+# ws['B2'] = today
+
+# wb.save(file_name)
+# wb.close()
+# if os.path.exists(file_name):
+#     print("File created successfully.")
