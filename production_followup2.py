@@ -26,7 +26,6 @@ for row in html_content.find_all('tr'):
     row_data = [cell.get_text(strip=True) for cell in row.find_all('td')]
     rows.append(row_data)
 
-# today = input("Enter yesterday's date: ")
 today = ''
 if get_confirmation():
     today = datetime.now() - timedelta(days=1)
@@ -60,25 +59,7 @@ for row in rows:
         i += 1
 ws['B2'] = today  # date_cell
 wb.save(file_name)
+wb.save(file2_name)
 wb.close()
 if os.path.exists(file_name):
     print("File created successfully.")
-# for index, row in data.iterrows():
-#     unit = row['Prod. Date']
-#     if unit in units:
-#         ws['B' + str(i + 4)] = row['QC Pass']
-#         ws['D' + str(i + 4)] = row['Accu. QC Pass']
-#         ws['K' + str(i + 4)] = row['Target']
-#         ws['O' + str(i + 4)] = row['Accu. SMV']
-#         ws['Q' + str(i + 4)] = row['Accu. W.Hour']
-#         ws['S' + str(i + 4)] = row['Accu. Efficiency']
-#         ws['W' + str(i + 4)] = completed_days
-#         i += 1
-
-# # date_cell
-# ws['B2'] = today
-
-# wb.save(file_name)
-# wb.close()
-# if os.path.exists(file_name):
-#     print("File created successfully.")
