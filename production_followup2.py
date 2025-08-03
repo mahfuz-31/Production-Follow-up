@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-import pandas as pd # type: ignore
 import math
 from openpyxl import load_workbook # type: ignore
 from openpyxl.styles import Border, PatternFill, Side # type: ignore
@@ -34,12 +33,12 @@ else:
     date = int(input("Enter how many days ago from today's date you want to get: "))
     date = datetime.now() - timedelta(days=date)
     today = date.strftime("%d-%b-%y")
-file_name = "07. Jul/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/07. Jul/' + str(today) + '.xlsx'
+file_name = "08. Aug/" + today + ".xlsx"
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/08. Aug/' + str(today) + '.xlsx'
 
 units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GTAL', 'GMT TOTAL:', 'LINGERIE']
 
-file_count = sum(1 for file in os.listdir('07. Jul/') if os.path.isfile(os.path.join('07. Jul/', file)))
+file_count = sum(1 for file in os.listdir('08. Aug/') if os.path.isfile(os.path.join('08. Aug/', file)))
 
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
