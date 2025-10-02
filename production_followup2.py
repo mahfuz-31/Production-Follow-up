@@ -33,12 +33,12 @@ else:
     date = int(input("Enter how many days ago from today's date you want to get: "))
     date = datetime.now() - timedelta(days=date)
     today = date.strftime("%d-%b-%y")
-file_name = "09. Sep/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/09. Sep/' + str(today) + '.xlsx'
+file_name = "10. Oct/" + today + ".xlsx"
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/10. Oct/' + str(today) + '.xlsx'
 
 units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GTAL', 'GMT TOTAL:', 'LINGERIE']
 
-file_count = sum(1 for file in os.listdir('09. Sep/') if os.path.isfile(os.path.join('09. Sep/', file)))
+file_count = sum(1 for file in os.listdir('10. Oct/') if os.path.isfile(os.path.join('10. Oct/', file)))
 
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
@@ -48,13 +48,21 @@ ws = wb["Sheet1"]
 i = 0
 for row in rows:
     if len(row) == 20 and row[0] in units:
-        ws['B' + str(i + 4)] = float(row[7].replace(',', ''))
-        ws['D' + str(i + 4)] = float(row[13].replace(',', ''))
-        ws['K' + str(i + 4)] = float(row[8].replace(',', ''))
-        ws['O' + str(i + 4)] = float(row[18])
-        ws['Q' + str(i + 4)] = float(row[14])
-        ws['S' + str(i + 4)] = float(row[15].replace('%', ''))/100
-        ws['W' + str(i + 4)] = completed_days
+        if row[0] == 'GTAL':
+            excel_row = '11'
+        elif row[0] == 'LINGERIE':
+            excel_row = '13'
+        # elif row[0] == 'GMT TOTAL:':
+        #     excel_row = '12'
+        else:
+            excel_row = str(i + 4)
+        ws['B' + excel_row] = float(row[7].replace(',', ''))
+        ws['D' + excel_row] = float(row[13].replace(',', ''))
+        ws['K' + excel_row] = float(row[8].replace(',', ''))
+        ws['O' + excel_row] = float(row[18])
+        ws['Q' + excel_row] = float(row[14])
+        ws['S' + excel_row] = float(row[15].replace('%', ''))/100
+        ws['W' + excel_row] = completed_days
         i += 1
 ws['B2'] = today  # date_cell
 wb.save(file_name)
