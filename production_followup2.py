@@ -6,6 +6,8 @@ import os
 from openpyxl.styles import Font # type: ignore
 from openpyxl.styles import Alignment
 from datetime import datetime, timedelta
+import pandas as pd
+
 def get_confirmation():
     choice = input("Do you want to create yesterday's report? (Press 'N' or 'n' for No, any other key for Yes): ").strip()
     return choice.lower() != 'n'
@@ -14,16 +16,7 @@ def setPrecision(value, decimal_places):
     factor = 10 ** decimal_places
     return math.floor(value * factor) / factor
     
-# data = pd.read_csv('data.csv')
-file_name = 'diagnostic_summary.html'
-with open(file_name, "r", encoding="latin1") as file:
-    html_file = file.read()
-
-html_content = BeautifulSoup(html_file, "html.parser")
-rows = []
-for row in html_content.find_all('tr'):
-    row_data = [cell.get_text(strip=True) for cell in row.find_all('td')]
-    rows.append(row_data)
+data = pd.read_csv('Report.csv')
 
 today = ''
 if get_confirmation():
@@ -36,7 +29,7 @@ else:
 file_name = "12. Dec/" + today + ".xlsx"
 file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/12. Dec/' + str(today) + '.xlsx'
 
-units = ['JAL', 'JAL3', 'JFL', 'JKL', 'MFL', 'FFL2', 'JKL-U2', 'GTAL', 'GMT TOTAL:', 'LINGERIE']
+units = ['SubTotal: JAL', 'SubTotal: JFL', 'SubTotal: JKL', 'SubTotal: MFL', 'SubTotal: FFL2', 'SubTotal: JKL-U2', 'SubTotal: LIN', 'SubTotal: GTAL', 'Grand Total']
 
 file_count = sum(1 for file in os.listdir('12. Dec/') if os.path.isfile(os.path.join('12. Dec/', file)))
 
@@ -46,23 +39,15 @@ print("completed_days: ", completed_days)
 wb = load_workbook("template.xlsx")
 ws = wb["Sheet1"]
 i = 0
-for row in rows:
-    if len(row) == 20 and row[0] in units:
-        if row[0] == 'GTAL':
-            excel_row = '11'
-        elif row[0] == 'LINGERIE':
-            excel_row = '13'
-        # elif row[0] == 'GMT TOTAL:':
-        #     excel_row = '12'
-        else:
-            excel_row = str(i + 4)
-        ws['B' + excel_row] = float(row[7].replace(',', ''))
-        ws['D' + excel_row] = float(row[13].replace(',', ''))
-        ws['K' + excel_row] = float(row[8].replace(',', ''))
-        ws['O' + excel_row] = float(row[18])
-        ws['Q' + excel_row] = float(row[14])
-        ws['S' + excel_row] = float(row[15].replace('%', ''))/100
-        ws['W' + excel_row] = completed_days
+for index, row in data.iterrows():
+    if row[1] in units:
+        ws['B' + str(i + 4)] = row['QC Pass']
+        ws['D' + str(i + 4)] = row['Accu.QC Pass']
+        ws['K' + str(i + 4)] = row['TGT']
+        ws['O' + str(i + 4)] = row['Accu.SMV']
+        ws['Q' + str(i + 4)] = row['Accu.Work Hour']
+        ws['S' + str(i + 4)] = row['Accu.Efficiency %']
+        ws['W' + str(i + 4)] = completed_days
         i += 1
 ws['B2'] = today  # date_cell
 wb.save(file_name)
