@@ -26,12 +26,12 @@ else:
     date = int(input("Enter how many days ago from today's date you want to get: "))
     date = datetime.now() - timedelta(days=date)
     today = date.strftime("%d-%b-%y")
-file_name = "12. Dec/" + today + ".xlsx"
-file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/12. Dec/' + str(today) + '.xlsx'
+file_name = "01. Jan/" + today + ".xlsx"
+file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/01. Jan/' + str(today) + '.xlsx'
 
 units = ['SubTotal: JAL', 'SubTotal: JFL', 'SubTotal: JKL', 'SubTotal: MFL', 'SubTotal: FFL2', 'SubTotal: JKL-U2', 'SubTotal: LIN', 'SubTotal: GTAL', 'Grand Total']
 
-file_count = sum(1 for file in os.listdir('12. Dec/') if os.path.isfile(os.path.join('12. Dec/', file)))
+file_count = sum(1 for file in os.listdir('01. Jan/') if os.path.isfile(os.path.join('01. Jan/', file)))
 
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
