@@ -16,7 +16,7 @@ def setPrecision(value, decimal_places):
     factor = 10 ** decimal_places
     return math.floor(value * factor) / factor
     
-data = pd.read_csv('Report.csv')
+data = pd.read_csv('Report.csv', encoding='ISO-8859-1')
 
 today = ''
 if get_confirmation():
