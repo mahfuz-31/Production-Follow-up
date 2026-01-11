@@ -16,8 +16,16 @@ def setPrecision(value, decimal_places):
     factor = 10 ** decimal_places
     return math.floor(value * factor) / factor
     
-data = pd.read_csv('Report.csv', encoding='ISO-8859-1')
-
+# data = pd.read_csv('Report.csv', encoding='ISO-8859-1')
+with open("Sewing Diagnostic Summary Report.html", "r", encoding="utf-8") as file:
+    html_file = file.read()
+html_content = BeautifulSoup(html_file, "html.parser")
+rows = []
+for row in html_content.find_all('tr'):
+    row_data = [cell.get_text(strip=True) for cell in row.find_all('td')]
+    if len(row_data) != 20:
+        continue
+    rows.append(row_data)
 today = ''
 if get_confirmation():
     today = datetime.now() - timedelta(days=1)
@@ -29,7 +37,7 @@ else:
 file_name = "01. Jan/" + today + ".xlsx"
 file2_name = '//192.168.1.231/Planning Internal/Md. Mahfuzur Rahman/Production follow up/01. Jan/' + str(today) + '.xlsx'
 
-units = ['SubTotal: JAL', 'SubTotal: JFL', 'SubTotal: JKL', 'SubTotal: MFL', 'SubTotal: FFL2', 'SubTotal: JKL-U2', 'SubTotal: LIN', 'SubTotal: GTAL', 'Grand Total']
+units = ['SubTotal: JAL', 'SubTotal: JFL', 'SubTotal: JKL', 'SubTotal: MFL', 'SubTotal: FFL2', 'SubTotal: JKL-U2', 'SubTotal: LIN', 'SubTotal: GTAL']
 
 file_count = sum(1 for file in os.listdir('01. Jan/') if os.path.isfile(os.path.join('01. Jan/', file)))
 
@@ -39,17 +47,27 @@ print("completed_days: ", completed_days)
 wb = load_workbook("template.xlsx")
 ws = wb["Sheet1"]
 i = 0
-for index, row in data.iterrows():
+for row in rows:
     if row[1] in units:
-        ws['B' + str(i + 4)] = row['QC Pass']
-        ws['D' + str(i + 4)] = row['Accu.QC Pass']
-        ws['K' + str(i + 4)] = row['TGT']
-        ws['O' + str(i + 4)] = row['Accu.SMV']
-        ws['Q' + str(i + 4)] = row['Accu.Work Hour']
-        ws['S' + str(i + 4)] = row['Accu.Efficiency %']
-        ws['W' + str(i + 4)] = completed_days
-        i += 1
-ws['B2'] = today  # date_cell
+        if row[1] == 'SubTotal: LIN':
+            ws['B12'] = int(row[8].replace(',', ''))
+            ws['D12'] = int(row[14].replace(',', ''))
+            ws['K12'] = int(row[9].replace(',', ''))
+            ws['O12'] = float(row[19])
+            ws['Q12'] = float(row[15])
+            ws['S12'] = float(row[16].replace('%', ''))/100
+            ws['W12'] = completed_days
+        else:
+            ws['B' + str(i + 4)] = int(row[8].replace(',', ''))
+            ws['D' + str(i + 4)] = int(row[14].replace(',', ''))
+            ws['K' + str(i + 4)] = int(row[9].replace(',', ''))
+            ws['O' + str(i + 4)] = float(row[19])
+            ws['Q' + str(i + 4)] = float(row[15])
+            ws['S' + str(i + 4)] = float(row[16].replace('%', ''))/100
+            ws['W' + str(i + 4)] = completed_days
+            i += 1
+
+ws['B2'] = today
 wb.save(file_name)
 wb.save(file2_name)
 wb.close()
