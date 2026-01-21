@@ -44,30 +44,47 @@ file_count = sum(1 for file in os.listdir('01. Jan/') if os.path.isfile(os.path.
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
 
-wb = load_workbook("template.xlsx")
+wb = load_workbook("template - Copy.xlsx")
 ws = wb["Sheet1"]
 i = 0
 for row in rows:
     if row[1] in units:
         if row[1] == 'SubTotal: LIN':
+            # First Table
             ws['B12'] = int(row[8].replace(',', ''))
-            ws['D12'] = int(row[14].replace(',', ''))
-            ws['K12'] = int(row[9].replace(',', ''))
-            ws['O12'] = float(row[19])
-            ws['Q12'] = float(row[15])
-            ws['S12'] = float(row[16].replace('%', ''))/100
-            ws['W12'] = completed_days
+            ws['C12'] = int(row[9].replace(',', ''))
+            ws['E12'] = float(row[5])
+            ws['F12'] = float(row[6])
+            ws['G12'] = float(row[10].replace('%', ''))/100
+            ws['J12'] = int(row[2].replace(',', ''))
+            ws['K12'] = int(row[3].replace(',', ''))
+            ws['L12'] = int(row[4].replace(',', ''))
+            ws['P12'] = completed_days
+            # second Table
+            ws['C24'] = int(row[14].replace(',', ''))
+            ws['H24'] = float(row[19])
+            ws['J24'] = float(row[15])
+            ws['L24'] = float(row[16].replace('%', ''))/100
+
         else:
+            # First Table
             ws['B' + str(i + 4)] = int(row[8].replace(',', ''))
-            ws['D' + str(i + 4)] = int(row[14].replace(',', ''))
-            ws['K' + str(i + 4)] = int(row[9].replace(',', ''))
-            ws['O' + str(i + 4)] = float(row[19])
-            ws['Q' + str(i + 4)] = float(row[15])
-            ws['S' + str(i + 4)] = float(row[16].replace('%', ''))/100
-            ws['W' + str(i + 4)] = completed_days
+            ws['C' + str(i + 4)] = int(row[9].replace(',', ''))
+            ws['E' + str(i + 4)] = float(row[5])
+            ws['F' + str(i + 4)] = float(row[6])
+            ws['G' + str(i + 4)] = float(row[10].replace('%', ''))/100
+            ws['J' + str(i + 4)] = int(row[2].replace(',', ''))
+            ws['K' + str(i + 4)] = int(row[3].replace(',', ''))
+            ws['L' + str(i + 4)] = int(row[4].replace(',', ''))
+            ws['P' + str(i + 4)] = completed_days
+            # second Table
+            ws['C' + str(i + 16)] = int(row[14].replace(',', ''))
+            ws['H' + str(i + 16)] = float(row[19])
+            ws['J' + str(i + 16)] = float(row[15])
+            ws['L' + str(i + 16)] = float(row[16].replace('%', ''))/100
             i += 1
 
-ws['B2'] = today
+# ws['B2'] = today
 wb.save(file_name)
 wb.save(file2_name)
 wb.close()
