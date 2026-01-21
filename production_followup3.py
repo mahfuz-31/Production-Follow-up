@@ -44,7 +44,7 @@ file_count = sum(1 for file in os.listdir('01. Jan/') if os.path.isfile(os.path.
 completed_days = int(file_count) + 1
 print("completed_days: ", completed_days)
 
-wb = load_workbook("template - Copy.xlsx")
+wb = load_workbook("template.xlsx")
 ws = wb["Sheet1"]
 i = 0
 for row in rows:
